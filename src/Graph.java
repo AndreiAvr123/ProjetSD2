@@ -1,10 +1,13 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Graph {
-
+    private Map<String, ArrayList<String>> mapStationListeTroncons;
     public Graph(File lignes, File troncons) {
         lireFichier(lignes);
     }
@@ -27,7 +30,8 @@ public class Graph {
             StringBuffer sb = new StringBuffer();
             String ligne;
             while((ligne = br.readLine()) != null){
-                sb.append(ligne);
+                String[] lisplit = ligne.split(",");
+                sb.append(lisplit[1]);
                 sb.append('\n');
             }
             fr.close();
