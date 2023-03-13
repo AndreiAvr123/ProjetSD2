@@ -1,8 +1,9 @@
 public class Troncons {
-    private int numLigne,duree;
+    private Lignes numLigne;
+    private int duree;
     private String depart,arrivee;
 
-    public Troncons(int numLigne, int duree, String depart, String arrivee) {
+    public Troncons(Lignes numLigne, int duree, String depart, String arrivee) {
         this.numLigne = numLigne;
         this.duree = duree;
         this.depart = depart;
