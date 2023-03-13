@@ -1,15 +1,14 @@
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Graph {
-    private Map<String, ArrayList<String>> mapStationListeTroncons;
+    private Map<String, List<String>> mapStationListeTroncons;
     public Graph(File lignes, File troncons) {
-        lireFichier(lignes);
+
     }
 
     public void calculerCheminMinimisantNombreTroncons(String arretDepart, String arretArrivee) {
@@ -23,7 +22,7 @@ public class Graph {
      * Lis un fichier et affiche son contenu
      * @param fichier le fichier à lire
      */
-    public void lireFichier(File fichier){
+    public void lireFichier(File fichier, int index){
         try{
             FileReader fr = new FileReader(fichier);
             BufferedReader br = new BufferedReader(fr);
@@ -31,12 +30,12 @@ public class Graph {
             String ligne;
             while((ligne = br.readLine()) != null){
                 String[] lisplit = ligne.split(",");
-                sb.append(lisplit[1]);
+                sb.append(lisplit[index]);
                 sb.append('\n');
             }
             fr.close();
             System.out.println("Contenu du fichier :");
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }catch (IOException e){
             e.printStackTrace();
         }
