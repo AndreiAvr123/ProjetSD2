@@ -9,7 +9,4 @@ public class Troncons {
         this.depart = depart;
         this.arrivee = arrivee;
     }
-
-
-
 }

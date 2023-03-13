@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Graph {
-    private Map<Lignes, List<Troncons>> mapStationListeTroncons;
+    private Map<Stations, List<Troncons>> mapStationsTroncons;
 
     public Graph(File lignes, File troncons) {
 
