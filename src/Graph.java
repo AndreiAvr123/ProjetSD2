@@ -11,6 +11,16 @@ public class Graph {
     Set<Stations> listeStations;
     private Map<Stations, Set<Troncons>> mapStationsTroncons = new HashMap<>();
 
+    /**
+     * Construit la liste des stations pour la liste d'adjacence. Ensuite construit une map
+     * ayant comme clés chaques stations de la liste des stations, et comme valeur une liste
+     * de tronçons sortant de la station.
+     * La liste des Stations se construit sur base du premier paramètre.
+     * Les listes des tronçons se construisent sur base du deuxième paramètre
+     *
+     * @param lignes fichier Lignes.txt à lire.
+     * @param troncons fichier Tronçons.txt à lire.
+     */
     public Graph(File lignes, File troncons) {
         listeStations = lireStations(lignes,2);
         for (Stations station : listeStations) {
@@ -27,11 +37,14 @@ public class Graph {
     }
 
     /**
-     * Lis un fichier et affiche son contenu
-     * @param fichierLignes le fichier à lire
+     * Lis le fichier et renvois une liste de toute les stations.
+     *
+     * @param fichierLignes le fichier à lire.
+     * @param index correspondant au numéro, de la valeur pour chaque ligne, séparé par les virgules.
+     * @return la liste de toute les stations.
      */
     public Set<Stations> lireStations(File fichierLignes, int index){
-        Set<Stations> listeRetour = new HashSet<Stations>();
+        Set<Stations> listeStations = new HashSet<Stations>();
 
         try{
             FileReader fr = new FileReader(fichierLignes);
@@ -40,7 +53,7 @@ public class Graph {
             while((ligne = br.readLine()) != null){
                 String[] lisplit = ligne.split(",");
                 Stations stations = new Stations(lisplit[index]);
-                listeRetour.add(stations);
+                listeStations.add(stations);
             }
             fr.close();
 
@@ -48,11 +61,17 @@ public class Graph {
             e.printStackTrace();
         }
 
-        return listeRetour;
+        return listeStations;
     }
 
-    // TODO deuxieme paramètre correspondant à un arret de départ du troncons
-
+    /**
+     * Lis le fichier et renvois une liste de tronçons ayant comme arret de
+     * départ la station passée en parametre.
+     *
+     * @param fichierTroncons fichier à lire.
+     * @param stationDepart la station de départ.
+     * @return la liste des tronçons.
+     */
     public Set<Troncons> lireTroncons(File fichierTroncons, Stations stationDepart){
         Set<Troncons> listeRetour = new HashSet<Troncons>();
 
