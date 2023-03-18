@@ -5,4 +5,7 @@ public class Stations {
     this.nom = nom;
   }
 
+  public String getNom() {
+    return nom;
+  }
 }

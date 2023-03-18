@@ -63,7 +63,7 @@ public class Graph {
             while((ligne = br.readLine()) != null){
                 String[] lisplit = ligne.split(",");
                 Troncons troncons = new Troncons(new Lignes(Integer.parseInt(lisplit[0])),lisplit[1], lisplit[2],Integer.parseInt(lisplit[3]));
-                if (troncons.getDepart().equals(stationDepart)){
+                if (troncons.getDepart().equals(stationDepart.getNom())){
                     listeRetour.add(troncons);
                 }
             }
