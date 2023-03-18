@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,10 +15,10 @@ public class Graph {
 
     /**
      * Construit la liste des stations pour la liste d'adjacence. Ensuite construit une map
-     * ayant comme clés chaques stations de la liste des stations, et comme valeur une liste
+     * ayant comme clés chaque station de la liste des stations, et comme valeur une liste
      * de tronçons sortant de la station.
      * La liste des Stations se construit sur base du premier paramètre.
-     * Les listes des tronçons se construisent sur base du deuxième paramètre
+     * Les listes des tronçons se construisent sur base du deuxième paramètre.
      *
      * @param lignes fichier Lignes.txt à lire.
      * @param troncons fichier Tronçons.txt à lire.
@@ -29,8 +31,24 @@ public class Graph {
         }
     }
 
+    // TODO méthode à revoir pcq elle fonctionne pas du tout
     public void calculerCheminMinimisantNombreTroncons(String arretDepart, String arretArrivee) {
+        int nbrTroncons = 0;
 
+        for (Stations station : listeStations){
+            if (station.getNom().equals(arretArrivee))
+                break;
+
+            for (Troncons troncon : mapStationsTroncons.get(station)){
+                if (troncon.getArrivee().equals(arretArrivee))
+                    break;
+            }
+
+            nbrTroncons++;
+        }
+
+        System.out.println("Nombre de tronçons de " + arretDepart + " à " + arretArrivee +
+            " est de : " + nbrTroncons + " tronçons.");
     }
 
     public void calculerCheminMinimisantTempsTransport(String arretDepart, String arretArrivee) {
