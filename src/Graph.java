@@ -13,10 +13,9 @@ public class Graph {
 
     public Graph(File lignes, File troncons) {
         listeStations = lireStations(lignes,2);
-        for (int i = 1; i <= listeStations.size(); i++) {
-            Set<Troncons> listeTroncons = lireTroncons(troncons);
-
-
+        for (Stations station : listeStations) {
+            Set<Troncons> listeTroncons = lireTroncons(troncons,station);
+            mapStationsTroncons.put(station,listeTroncons);
         }
     }
 
@@ -54,7 +53,7 @@ public class Graph {
 
     // TODO deuxieme paramètre correspondant à un arret de départ du troncons
 
-    public Set<Troncons> lireTroncons(File fichierTroncons){
+    public Set<Troncons> lireTroncons(File fichierTroncons, Stations stationDepart){
         Set<Troncons> listeRetour = new HashSet<Troncons>();
 
         try{
@@ -63,8 +62,10 @@ public class Graph {
             String ligne;
             while((ligne = br.readLine()) != null){
                 String[] lisplit = ligne.split(",");
-                Troncons troncons = new Troncons(new Lignes(Integer.parseInt(lisplit[0])),Integer.parseInt(lisplit[1]),lisplit[2], lisplit[3]);
-                listeRetour.add(troncons);
+                Troncons troncons = new Troncons(new Lignes(Integer.parseInt(lisplit[0])),lisplit[1], lisplit[2],Integer.parseInt(lisplit[3]));
+                if (troncons.getDepart().equals(stationDepart)){
+                    listeRetour.add(troncons);
+                }
             }
             fr.close();
 
