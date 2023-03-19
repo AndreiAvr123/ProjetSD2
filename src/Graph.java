@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Graph {
+public class Graph  {
     Set<Stations> listeStations;
     private Map<Stations, Set<Troncons>> mapStationsTroncons = new HashMap<>();
 
