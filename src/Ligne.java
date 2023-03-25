@@ -1,10 +1,10 @@
-public class Lignes {
+public class Ligne {
     private int identifiant = 1, numero, tmpsAttenteMoyen;
-    private Stations depart, destination;
+    private String depart, destination;
     private String typeTransport;
 
-    public Lignes(int numero, int tmpsAttenteMoyen,
-        Stations depart, Stations destination, String typeTransport){
+    public Ligne(int numero, int tmpsAttenteMoyen,
+        String depart, String destination, String typeTransport){
       this.identifiant++;
       this.numero = numero;
       this.tmpsAttenteMoyen = tmpsAttenteMoyen;
@@ -14,7 +14,7 @@ public class Lignes {
     }
 
     // TODO vérifier ce constructeur
-    public Lignes(int numero) {
+    public Ligne(int numero) {
       this.numero = numero;
     }
 }

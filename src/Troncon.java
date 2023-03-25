@@ -1,9 +1,9 @@
-public class Troncons {
-    private Lignes numLigne;
+public class Troncon {
+    private Ligne numLigne;
     private int duree;
-    private String depart,arrivee;
+    private Station depart,arrivee;
 
-    public Troncons(Lignes numLigne, String depart, String arrivee, int duree) {
+    public Troncon(Ligne numLigne, Station depart, Station arrivee, int duree) {
         this.numLigne = numLigne;
         this.duree = duree;
         this.depart = depart;
@@ -14,15 +14,15 @@ public class Troncons {
         return duree;
     }
 
-    public Lignes getNumLigne() {
+    public Ligne getNumLigne() {
         return numLigne;
     }
 
-    public String getArrivee() {
+    public Station getArrivee() {
         return arrivee;
     }
 
-    public String getDepart() {
+    public Station getDepart() {
         return depart;
     }
 }

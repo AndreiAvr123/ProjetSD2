@@ -10,8 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class Graph {
-    Set<Stations> listeStations;
-    private Map<Stations, Set<Troncons>> mapStationsTroncons = new HashMap<>();
+    private Set<Station> listeStations;
+    private Map<Station, Set<Troncon>> mapStationsTroncons;
+    private Map<String, Station> stringStation;
 
     /**
      * Construit la liste des stations pour la liste d'adjacence. Ensuite construit une map
@@ -24,31 +25,39 @@ public class Graph {
      * @param troncons fichier Tronçons.txt à lire.
      */
     public Graph(File lignes, File troncons) {
-        listeStations = lireStations(lignes,2);
-        for (Stations station : listeStations) {
-            Set<Troncons> listeTroncons = lireTroncons(troncons,station);
-            mapStationsTroncons.put(station,listeTroncons);
-        }
+        listeStations = new HashSet<>();
+        mapStationsTroncons = new HashMap<>();
+        stringStation = new HashMap<>();
+        lireTroncons(troncons);
     }
 
-    // TODO méthode à revoir pcq elle fonctionne pas du tout
     public void calculerCheminMinimisantNombreTroncons(String arretDepart, String arretArrivee) {
-        int nbrTroncons = 0;
+        Deque<Station> file = new ArrayDeque<>();
+        Set<Station> dejaVisite = new HashSet<>();
+        HashMap<Station, Troncon> mapStation = new HashMap<>();
 
-        for (Stations station : listeStations){
-            if (station.getNom().equals(arretArrivee))
-                break;
+        file.add(stringStation.get(arretDepart));
+        dejaVisite.add(stringStation.get(arretDepart));
 
-            for (Troncons troncon : mapStationsTroncons.get(station)){
-                if (troncon.getArrivee().equals(arretArrivee))
-                    break;
-            }
+        Station stationArrivee = stringStation.get(arretArrivee);
+        Station stationDepart = stringStation.get(arretDepart);
+        Station station = stationDepart;
 
-            nbrTroncons++;
+        while (!file.isEmpty() || !station.equals(stationArrivee)){
+            // station = file.removeFirst();
+            // for (Troncon troncon : mapStationsTroncons.get(stringStation.get(stationDepart))){
+            //     station = troncon.getArrivee();
+            //     if (dejaVisite.add(station)){
+            //         file.add(station);
+            //         mapStation.put(station,troncon);
+            //     }
+            // }
         }
 
-        System.out.println("Nombre de tronçons de " + arretDepart + " à " + arretArrivee +
-            " est de : " + nbrTroncons + " tronçons.");
+        for (Station station1 : mapStation.keySet()){
+            System.out.println(mapStation.get(station1));
+        }
+
     }
 
     public void calculerCheminMinimisantTempsTransport(String arretDepart, String arretArrivee) {
@@ -61,8 +70,7 @@ public class Graph {
      * @param index correspondant au numéro, de la valeur pour chaque ligne, séparé par les virgules.
      * @return la liste de toute les stations.
      */
-    public Set<Stations> lireStations(File fichierLignes, int index){
-        Set<Stations> listeStations = new HashSet<Stations>();
+    public Set<Station> lireStations(File fichierLignes, int index){
 
         try{
             FileReader fr = new FileReader(fichierLignes);
@@ -70,8 +78,10 @@ public class Graph {
             String ligne;
             while((ligne = br.readLine()) != null){
                 String[] lisplit = ligne.split(",");
-                Stations stations = new Stations(lisplit[index]);
+                Station stations = new Station(lisplit[index]);
                 listeStations.add(stations);
+                mapStationsTroncons.put(stations,null);
+                System.out.println(mapStationsTroncons.containsKey(stations));
             }
             fr.close();
 
@@ -82,16 +92,16 @@ public class Graph {
         return listeStations;
     }
 
+
+
     /**
      * Lis le fichier et renvois une liste de tronçons ayant comme arret de
      * départ la station passée en parametre.
      *
      * @param fichierTroncons fichier à lire.
-     * @param stationDepart la station de départ.
      * @return la liste des tronçons.
      */
-    public Set<Troncons> lireTroncons(File fichierTroncons, Stations stationDepart){
-        Set<Troncons> listeRetour = new HashSet<Troncons>();
+    public void lireTroncons(File fichierTroncons){
 
         try{
             FileReader fr = new FileReader(fichierTroncons);
@@ -99,9 +109,18 @@ public class Graph {
             String ligne;
             while((ligne = br.readLine()) != null){
                 String[] lisplit = ligne.split(",");
-                Troncons troncons = new Troncons(new Lignes(Integer.parseInt(lisplit[0])),lisplit[1], lisplit[2],Integer.parseInt(lisplit[3]));
-                if (troncons.getDepart().equals(stationDepart.getNom())){
-                    listeRetour.add(troncons);
+                Station stationDepart = new Station(lisplit[1]);
+                Troncon troncon = new Troncon(new Ligne(Integer.parseInt(lisplit[0])),stationDepart, new Station(lisplit[2]),Integer.parseInt(lisplit[3]));
+
+                if (!stringStation.containsKey(lisplit[1])){
+                    stringStation.put(lisplit[1],stationDepart);
+                    listeStations.add(stationDepart);
+
+                    HashSet<Troncon> listeTroncons = new HashSet<>();
+                    listeTroncons.add(troncon);
+                    mapStationsTroncons.put(stringStation.get(lisplit[1]),listeTroncons);
+                }else{
+                    mapStationsTroncons.get(stringStation.get(lisplit[1])).add(troncon);
                 }
             }
             fr.close();
@@ -109,7 +128,5 @@ public class Graph {
         }catch (IOException e){
             e.printStackTrace();
         }
-
-        return listeRetour;
     }
 }
