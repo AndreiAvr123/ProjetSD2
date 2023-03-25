@@ -43,15 +43,20 @@ public class Graph {
         Station stationDepart = stringStation.get(arretDepart);
         Station station = stationDepart;
 
+        Station test = stringStation.get("BARON DE CASTRO");
+
         while (!file.isEmpty() || !station.equals(stationArrivee)){
-            // station = file.removeFirst();
-            // for (Troncon troncon : mapStationsTroncons.get(stringStation.get(stationDepart))){
-            //     station = troncon.getArrivee();
-            //     if (dejaVisite.add(station)){
-            //         file.add(station);
-            //         mapStation.put(station,troncon);
-            //     }
-            // }
+            station = file.removeFirst();
+
+            // System.out.println(station.getNom());
+            // System.out.println(mapStationsTroncons.containsKey(station));
+            for (Troncon troncon : mapStationsTroncons.get(station)){
+                station = troncon.getArrivee();
+                if (dejaVisite.add(station)){
+                    file.add(station);
+                    mapStation.put(station, troncon);
+                }
+            }
         }
 
         for (Station station1 : mapStation.keySet()){
